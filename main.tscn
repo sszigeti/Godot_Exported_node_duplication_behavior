@@ -1,0 +1,156 @@
+[gd_scene load_steps=3 format=3 uid="uid://cik21kbxjrpmp"]
+
+[ext_resource type="PackedScene" uid="uid://1o3h538inkdy" path="res://resettable_counter.tscn" id="1_wdo8y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dugco"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="main explanation" type="Label" parent="."]
+self_modulate = Color(0, 0.741176, 0.745098, 1)
+layout_mode = 2
+offset_left = 23.0
+offset_top = 23.0
+offset_right = 400.0
+offset_bottom = 387.0
+grow_vertical = 2
+text = "The \"resettable_counter\" increases a value every second, and the value can be reset to 0 by clicking its button.
+
+The Label node inside is exported as \"Label\" type (instead of a uniquely named node or with a NodePath).
+
+The problem is that for duplicated scenes this export reference points to the original node, but I think they should automatically point to the node in their own hierarchy, as if they were created via the Instantiate Child Scene command."
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="main explanation"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.752941)
+
+[node name="explanation" type="Label" parent="."]
+self_modulate = Color(0, 0.741176, 0.745098, 1)
+layout_mode = 2
+offset_left = 660.0
+offset_top = 35.0
+offset_right = 913.0
+offset_bottom = 185.0
+grow_vertical = 2
+text = "These two scenes here have been instantiated via \"Instantiate Child Scene\", so they refer to their own Label nodes, as they should."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="explanation"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Instantiated 1" parent="." instance=ExtResource("1_wdo8y")]
+layout_mode = 0
+offset_left = 941.0
+offset_top = 41.0
+offset_right = 1083.0
+offset_bottom = 102.0
+
+[node name="Instantiated 2" parent="." instance=ExtResource("1_wdo8y")]
+layout_mode = 0
+offset_left = 942.0
+offset_top = 145.0
+offset_right = 1084.0
+offset_bottom = 206.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 439.0
+offset_right = 1124.0
+offset_bottom = 637.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dugco")
+
+[node name="Control" type="Control" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="explanation" type="Label" parent="PanelContainer/Control"]
+self_modulate = Color(0, 0.741176, 0.745098, 1)
+layout_mode = 2
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 401.0
+offset_bottom = 188.0
+grow_vertical = 2
+text = "The last two scenes have been created via \"Duplicate\", so they unfortunately refer to the same Label node, instead of the one in their own node trees.
+Moreover, only the last Reset button works and it affects the original scene's Label."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/Control/explanation"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Instantiated reference" parent="PanelContainer/Control" instance=ExtResource("1_wdo8y")]
+layout_mode = 2
+offset_left = 437.0
+offset_top = 20.0
+offset_right = 579.0
+offset_bottom = 81.0
+
+[node name="Duplicated 1" parent="PanelContainer/Control" node_paths=PackedStringArray("label") instance=ExtResource("1_wdo8y")]
+layout_mode = 2
+offset_left = 543.0
+offset_top = 88.0
+offset_right = 685.0
+offset_bottom = 149.0
+label = NodePath("../Instantiated reference/Label")
+
+[node name="Duplicated 2" parent="PanelContainer/Control" node_paths=PackedStringArray("label") instance=ExtResource("1_wdo8y")]
+layout_mode = 2
+offset_left = 722.0
+offset_top = 89.0
+offset_right = 864.0
+offset_bottom = 150.0
+label = NodePath("../Instantiated reference/Label")

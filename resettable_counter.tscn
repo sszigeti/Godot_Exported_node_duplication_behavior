@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://1o3h538inkdy"]
+
+[ext_resource type="Script" path="res://resettable_counter.gd" id="1_u6diw"]
+
+[node name="ResettableCounter" type="VBoxContainer" node_paths=PackedStringArray("label")]
+offset_right = 142.0
+offset_bottom = 61.0
+script = ExtResource("1_u6diw")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "value"
+horizontal_alignment = 1
+
+[node name="ResetButton" type="Button" parent="."]
+layout_mode = 2
+text = "Click me to reset!"
+
+[connection signal="pressed" from="ResetButton" to="." method="_on_reset_button_pressed"]
